@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Earthwear | Clean ceramics. Fresh modern earth tones.</title>
+  <meta name="description" content="Earthwear — curated ceramics in matte cream, earthy green and warm terracotta. Delivery R150, free over R1000 (South Africa only)." />
+  <style>
+    :root{
+      --bg:#ffffff;
+      --paper:#fbf7f0;     /* matte cream */
+      --ink:#1c1b1a;
+      --muted:#6b6b6b;
+      --line:#e9e2d8;
+      --green:#2f6b57;     /* earthy green */
+      --terra:#b46a3c;     /* warm terracotta */
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1100px,92%);margin:0 auto}
+    .header{
+      position:sticky;top:0;z-index:10;
+      border-bottom:1px solid var(--line);
+      background:rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+    }
+    .header__inner{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0}
+    .brand{font-weight:1000;letter-spacing:.4px;color:var(--green);font-size:18px}
+    .nav{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+    .badge{
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:8px 10px;
+      color:var(--muted);
+      font-weight:800;
+      background:#fff;
+      font-size:13px;
+    }
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      border-radius:999px;padding:12px 16px;font-weight:900;
+      border:1px solid var(--line);
+      background:#fff;cursor:pointer;
+    }
+    .btn--primary{background:var(--green);border-color:var(--green);color:#fff}
+    .btn--accent{background:var(--terra);border-color:var(--terra);color:#fff}
+    .btn:hover{filter:brightness(.98)}
+    .hero{
+      padding:38px 0 26px;
+      border-bottom:1px solid var(--line);
+      background:
+        radial-gradient(1200px 500px at 20% 20%, #f3efe8, transparent 55%),
+        radial-gradient(900px 400px at 80% 50%, #f0e3d6, transparent 55%),
+        linear-gradient(135deg, #fff, var(--paper));
+    }
+    h1{margin:0 0 10px;font-size:42px;line-height:1.05}
+    p{margin:0;color:var(--muted);line-height:1.6}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0 36px}
+    .card{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
+    .card__img{
+      height:190px;
+      background:
+        radial-gradient(900px 350px at 20% 30%, #f3efe8, transparent 55%),
+        radial-gradient(900px 350px at 80% 70%, #f0e3d6, transparent 55%),
+        linear-gradient(135deg,#fff,var(--paper));
+    }
+    .card__body{padding:14px}
+    .title{font-weight:1000;margin:0 0 6px}
+    .meta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-weight:800;font-size:13px}
+    .price{font-weight:1000;color:var(--ink)}
+    .small{font-size:13px}
+    .footer{border-top:1px solid var(--line);padding:20px 0;background:#fff}
+
+    /* Cart drawer */
+    .drawer{
+      position:fixed;top:0;right:0;height:100%;width:min(420px,92vw);
+      background:#fff;border-left:1px solid var(--line);
+      transform:translateX(110%);transition:transform .18s ease;
+      z-index:50;display:flex;flex-direction:column;
+    }
+    .drawer.open{transform:translateX(0)}
+    .drawer__head{padding:14px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .drawer__body{padding:14px;overflow:auto;flex:1}
+    .drawer__foot{padding:14px;border-top:1px solid var(--line);background:var(--paper)}
+    .line{height:1px;background:var(--line);margin:12px 0}
+    .item{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
+    .qty{
+      width:64px;padding:10px;border-radius:12px;border:1px solid var(--line);
+      font:inherit;
+    }
+    .muted{color:var(--muted)}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-weight:800;font-size:12px;color:var(--muted);background:#fff}
+
+    @media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}h1{font-size:36px}}
+    @media (max-width:520px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <div class="brand">Earthwear</div>
+      <nav class="nav">
+        <span class="badge">Delivery R150 • Free over R1000</span>
+        <button class="btn" id="openCartBtn">Cart (<span id="cartCount">0</span>)</button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Clean ceramics.<br/>Fresh modern earth tones.</h1>
+      <p>
+        Matte cream essentials with earthy greens and warm terracotta accents—curated to feel like one studio collection.
+        <br><span class="small">South Africa only • Delivery R150 • Free over R1000</span>
+      </p>
+      <div class="row" style="margin-top:14px">
+        <a class="btn btn--primary" href="#shop">Shop Earthwear</a>
+        <button class="btn btn--accent" id="openCartBtn2">Checkout</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="container" id="shop">
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="container row">
+      <div class="small muted">© <span id="year"></span> Earthwear</div>
+      <div class="small muted">A single-file shop demo you can publish on GitHub Pages</div>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer -->
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer__head">
+      <div style="font-weight:1000">Your cart</div>
+      <button class="btn" id="closeCartBtn">Close</button>
+    </div>
+    <div class="drawer__body">
+      <div id="cartItems"></div>
+      <div class="line"></div>
+      <div class="small muted">
+        Shipping: R150 flat • Free over R1000 (calculated at checkout)
+      </div>
+    </div>
+    <div class="drawer__foot">
+      <div class="row" style="align-items:flex-end">
+        <div>
+          <div class="small muted" style="font-weight:900">Subtotal: <span id="subtotal">R0.00</span></div>
+          <div class="small muted" style="font-weight:900">Shipping: <span id="shipping">R0.00</span></div>
+          <div style="font-weight:1000;font-size:18px;margin-top:6px">Total: <span id="total">R0.00</span></div>
+          <div class="small muted" style="margin-top:4px">Free shipping over R1000.00</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
+          <button class="btn" id="clearBtn">Clear</button>
+          <button class="btn btn--accent" id="emailOrderBtn">Place order (email)</button>
+        </div>
+      </div>
+      <div class="small muted" style="margin-top:10px">
+        This sends you an email with the order summary + supplier links so you can place supplier orders.
+      </div>
+    </div>
+  </aside>
+
+  <script>
+    // ====== CONFIG ======
+    const SHOP_EMAIL = "you@example.com"; // <- change to your email
+    const SHIPPING_FLAT = 150.00;
+    const FREE_SHIP_OVER = 1000.00;
+
+    // Curated Earthwear catalog (edit supplierUrl when ready)
+    const PRODUCTS = [
+      {id:"ew-stone-speckle-mug", name:"Stone Speckle Mug", price:389.00, category:"Mugs",
+        desc:"Matte cream glaze with subtle speckle. Clean, balanced shape for daily coffee.",
+        supplierUrl:"https://example.com/supplier-product-1"},
+      {id:"ew-handleless-minimal-mug", name:"Handleless Minimal Mug", price:349.00, category:"Mugs",
+        desc:"Modern handleless form with a raw clay base and soft glazed top.",
+        supplierUrl:"https://example.com/supplier-product-2"},
+      {id:"ew-ridged-artisan-mug", name:"Ridged Artisan Mug", price:459.00, category:"Mugs",
+        desc:"Gentle vertical texture, matte eggshell finish. A premium, studio look.",
+        supplierUrl:"https://example.com/supplier-product-3"},
+
+      {id:"ew-deep-noodle-bowl", name:"Deep Stoneware Bowl", price:489.00, category:"Bowls",
+        desc:"Deep everyday bowl in matte cream—great for soups, noodles, and hearty salads.",
+        supplierUrl:"https://example.com/supplier-product-4"},
+      {id:"ew-wide-pasta-bowl", name:"Wide Pasta Bowl", price:449.00, category:"Bowls",
+        desc:"Wide low bowl with an organic silhouette. Clean glaze, warm tone.",
+        supplierUrl:"https://example.com/supplier-product-5"},
+      {id:"ew-serving-bowl-large", name:"Textured Serving Bowl", price:799.00, category:"Bowls",
+        desc:"Large statement serving bowl with subtle texture—table-ready, minimal, timeless.",
+        supplierUrl:"https://example.com/supplier-product-6"},
+
+      {id:"ew-cylinder-planter", name:"Cylinder Planter + Tray", price:389.00, category:"Planters",
+        desc:"Minimal cylinder planter in matte cream with a clean matching tray.",
+        supplierUrl:"https://example.com/supplier-product-7"},
+      {id:"ew-sandstone-planter", name:"Sandstone Planter", price:459.00, category:"Planters",
+        desc:"Soft sandstone texture in a warm neutral—pairs beautifully with green foliage.",
+        supplierUrl:"https://example.com/supplier-product-8"},
+
+      {id:"ew-sculptural-vase", name:"Sculptural Vase", price:549.00, category:"Vases",
+        desc:"Matte sand finish with modern curves—perfect for stems or dried florals.",
+        supplierUrl:"https://example.com/supplier-product-9"},
+      {id:"ew-speckle-bud-vase", name:"Speckle Bud Vase", price:329.00, category:"Vases",
+        desc:"Small table vase with a studio speckle finish—clean, fresh, and giftable.",
+        supplierUrl:"https://example.com/supplier-product-10"},
+
+      {id:"ew-dinner-set-4pc", name:"Stoneware 4-Piece Set", price:1299.00, category:"Dinnerware",
+        desc:"A cohesive set (plate, side plate, bowl, mug) in matte cream for a unified table.",
+        supplierUrl:"https://example.com/supplier-product-11"},
+      {id:"ew-plate-set-4", name:"Organic Edge Plate Set (4)", price:899.00, category:"Dinnerware",
+        desc:"Organic edges and a clean glaze—minimal, modern, and quietly premium.",
+        supplierUrl:"https://example.com/supplier-product-12"},
+    ];
+
+    // ====== CART STORAGE ======
+    const CART_KEY = "earthwear_cart_singlefile_v1";
+    const getCart = () => {
+      try { return JSON.parse(localStorage.getItem(CART_KEY) || "[]"); }
+      catch { return []; }
+    };
+    const setCart = (items) => localStorage.setItem(CART_KEY, JSON.stringify(items));
+
+    const money = (n) => "R" + n.toFixed(2);
+
+    // ====== RENDER PRODUCTS ======
+    const grid = document.getElementById("grid");
+    grid.innerHTML = PRODUCTS.map(p => `
+      <article class="card">
+        <div class="card__img" aria-label="${p.name} image placeholder"></div>
+        <div class="card__body">
+          <h3 class="title">${p.name}</h3>
+          <div class="meta">
+            <span>${p.category}</span>
+            <span class="price">${money(p.price)}</span>
+          </div>
+          <p style="margin:10px 0 12px">${p.desc}</p>
+          <div class="row">
+            <span class="pill">Clean • Matte • Studio</span>
+            <button class="btn btn--primary" data-add="${p.id}">Add to cart</button>
+          </div>
+        </div>
+      </article>
+    `).join("");
+
+    // ====== DRAWER UI ======
+    const drawer = document.getElementById("drawer");
+    const openCart = () => { drawer.classList.add("open"); drawer.setAttribute("aria-hidden","false"); renderCart(); };
+    const closeCart = () => { drawer.classList.remove("open"); drawer.setAttribute("aria-hidden","true"); };
+
+    document.getElementById("openCartBtn").addEventListener("click", openCart);
+    document.getElementById("openCartBtn2").addEventListener("click", openCart);
+    document.getElementById("closeCartBtn").addEventListener("click", closeCart);
+
+    // ====== CART LOGIC ======
+    function addToCart(id){
+      const p = PRODUCTS.find(x => x.id === id);
+      if(!p) return;
+      const cart = getCart();
+      const existing = cart.find(i => i.id === id);
+      if(existing) existing.qty += 1;
+      else cart.push({id:p.id, name:p.name, price:p.price, qty:1, supplierUrl:p.supplierUrl});
+      setCart(cart);
+      updateCartCount();
+      openCart();
+    }
+
+    function updateQty(id, qty){
+      const cart = getCart().map(i => i.id === id ? ({...i, qty: Math.max(1, qty)}) : i);
+      setCart(cart);
+      renderCart();
+      updateCartCount();
+    }
+
+    function removeItem(id){
+      const cart = getCart().filter(i => i.id !== id);
+      setCart(cart);
+      renderCart();
+      updateCartCount();
+    }
+
+    function clearCart(){
+      setCart([]);
+      renderCart();
+      updateCartCount();
+    }
+
+    function totals(cart){
+      const subtotal = cart.reduce((s,i)=> s + (i.price*i.qty), 0);
+      const shipping = subtotal === 0 ? 0 : (subtotal >= FREE_SHIP_OVER ? 0 : SHIPPING_FLAT);
+      const total = subtotal + shipping;
+      return {subtotal, shipping, total};
+    }
+
+    const cartItems = document.getElementById("cartItems");
+    const subtotalEl = document.getElementById("subtotal");
+    const shippingEl = document.getElementById("shipping");
+    const totalEl = document.getElementById("total");
+
+    function renderCart(){
+      const cart = getCart();
+      const {subtotal, shipping, total} = totals(cart);
+
+      if(cart.length === 0){
+        cartItems.innerHTML = `<p class="muted">Your cart is empty.</p>`;
+      } else {
+        cartItems.innerHTML = cart.map(i => `
+          <div class="item">
+            <div style="max-width:260px">
+              <div style="font-weight:1000">${i.name}</div>
+              <div class="small muted">${money(i.price)} each</div>
+              <div class="small muted">Supplier: <a href="${i.supplierUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration:underline">open link</a></div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center">
+              <input class="qty" type="number" min="1" value="${i.qty}" data-qty="${i.id}">
+              <button class="btn" data-remove="${i.id}">Remove</button>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      subtotalEl.textContent = money(subtotal);
+      shippingEl.textContent = shipping === 0 ? "FREE" : money(shipping);
+      totalEl.textContent = money(total);
+
+      // wire events
+      cartItems.querySelectorAll("[data-qty]").forEach(inp => {
+        inp.addEventListener("change", (e) => updateQty(e.target.getAttribute("data-qty"), Number(e.target.value)));
+      });
+      cartItems.querySelectorAll("[data-remove]").forEach(btn => {
+        btn.addEventListener("click", (e) => removeItem(e.target.getAttribute("data-remove")));
+      });
+    }
+
+    function updateCartCount(){
+      const cart = getCart();
+      const count = cart.reduce((s,i)=> s+i.qty, 0);
+      document.getElementById("cartCount").textContent = count;
+    }
+
+    // Add-to-cart buttons
+    grid.querySelectorAll("[data-add]").forEach(btn => {
+      btn.addEventListener("click", () => addToCart(btn.getAttribute("data-add")));
+    });
+
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Clear + Email Order
+    document.getElementById("clearBtn").addEventListener("click", clearCart);
+
+    document.getElementById("emailOrderBtn").addEventListener("click", () => {
+      const cart = getCart();
+      if(cart.length === 0){ alert("Your cart is empty."); return; }
+      const t = totals(cart);
+
+      const lines = cart.map(i =>
+        `- ${i.name} x${i.qty} — ${money(i.price)} each (Supplier: ${i.supplierUrl})`
+      ).join("\n");
+
+      const body =
+`New Earthwear order request (GitHub Pages site)
+
+ITEMS:
+${lines}
+
+SUBTOTAL: ${money(t.subtotal)}
+SHIPPING: ${t.shipping === 0 ? "FREE" : money(t.shipping)}
+TOTAL: ${money(t.total)}
+
+CUSTOMER DETAILS (fill in):
+Name:
+Phone:
+Email:
+Address:
+City/Province:
+Postal Code:
+
+Notes:`.trim();
+
+      const subject = encodeURIComponent("Earthwear Order Request");
+      const mailto = `mailto:${encodeURIComponent(SHOP_EMAIL)}?subject=${subject}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+    });
+
+    // init
+    updateCartCount();
+  </script>
+</body>
+</html>
